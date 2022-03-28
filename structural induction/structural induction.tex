@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\begin{document}
+
+\section*{Задача 1.6}
+\paragraph*{}
+Тъй като събирането е операция, операцията е функция, функцията е релация, а релацията е множество, то можем да дефинираме събирането като множество от наредени тройки $(a, b, c)$, за които казваме, че $a+b=c$. Това множество ще наричаме $P$. Дефинираме монотонен оператор $\Gamma : \mathbb{P}(N) \rightarrow \mathbb{P}(N)$, $\Gamma(X) = \{ (o, x, x) | x \in N\} \cup \{ (s(a), b, s(c)) | (a, b, c) \in X \}$.
+
+\subsection*{подзадача 1}
+\paragraph*{}
+Трябва да докажем, че $n+s(m)=s(n+m)$. Ще използваме структурна индукция.
+\subsubsection*{случай 1: $n = o$}
+\paragraph*{}
+Тогава трябва да покажем, че $o + s(m) = s(o+m)$. Използвайки базата на дефиницията на събирането, това свойство излиза тривиално.
+\subsubsection*{случай 2: $n \neq o$}
+\paragraph*{}
+Можем да запишем $n = s(x)$ (това е така, понеже множеството $N$ е минимална неподвижна точка на оператора, чрез който се дефинира). Така имаме, че $n+s(m) = s(x)+s(m) = s(x+s(m)) = s(s(x+m)) = s(s(x) + m) = s(n+m)$. От дефиницията на събирането знаем, че $s(x)+s(m) = s(x+s(m))$. От индуктивното предположение знаем, че $s(x+s(m)) = s(s(x+m))$. Отново от дефиницията на събирането можем да запишем $s(s(x+m)) = s(s(x)+m) = s(n+m)$.
+
+\subsection*{подзадача 2}
+\paragraph*{}
+Трябва да покажем, че така дефинираното събиране е комутативно, тоест $n+m=m+n$.
+\subsubsection*{случай 1: $n=o$}
+\paragraph*{}
+Имаме, че $n+m = o+m = m$. ... доказва се 
+\subsubsection*{случай 2: $n \neq o$}
+\paragraph*{}
+Нека $n = s(x)$. Тогава $n+m = s(x) + m = s(x+m)$ от дефиницията на събирането. От друга страна $m+n = m + s(x) = s(m+x) = s(x+m)$ от подзадача 1 и от индукционното предположение. Така доказахме случая. 
+
+\end{document}
