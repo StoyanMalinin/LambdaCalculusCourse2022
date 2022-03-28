@@ -124,3 +124,10 @@
   (lambda(l)
     (lambda (f)
       ((l (lambda (a) (lambda (b) ((pushBack a) (f b))))) list))))
+
+(define filter
+  (lambda(l)
+    (lambda (f)
+      ((l
+        (lambda (a) (lambda (b) (if (f b) ((pushBack a) b) a) )))
+        list))))
