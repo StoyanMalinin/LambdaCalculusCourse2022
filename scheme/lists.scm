@@ -118,7 +118,7 @@
   (lambda (l)
     (lambda (f)
       (lambda (e)
-        ((l (invertBinaryFunction f)) e)))))
+        (((revList l) (invertBinaryFunction f)) e)))))
 
 (define map
   (lambda(l)
