@@ -165,3 +165,10 @@
               p)))
          ((cPair c0) c0)))))))
 
+(define cPrime
+  (lambda (n)
+    (cSecond
+     ((((c- n) c2)
+       (lambda (p)
+         ((cPair (cNext (cFirst p))) ((lAND (cSecond p)) (lNOT (equals0 ((cRem n) (cFirst p))))) )))
+       ((cPair c2) c#t)))))
