@@ -9,8 +9,6 @@
 \usepackage{caption}
 \usepackage{tabularx}
 
-
-
 \begin{document}
 
 \newcommand\alphaeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny $\alpha$}}}{=}}}
@@ -75,5 +73,31 @@
 \subsection*{2}
 \paragraph*{}
 Нека разгледаме $K = \lambda_x \lambda_y x$. Нека приложим $K$ на $c_i$ и на $I$. $I K \betaeq K = A_1$. От друга страна $c_i K \betaeq K c_s c_0 \betaeq c_s = A_2$. Използваме дефиницията за $c_s$ от лекции $c_s = \lambda_n \lambda_f \lambda_x f (n f x)$. Вижда се, че $A_1$ и $A_2$ са два фундаментално различни обекта, понеже ако приложим променлива $a$ към $A_1$ получаваме $A_1 a = Ka \betaeq \lambda_y a$, което е константа функция, а ако се опитаме да приложим променливата $a$ към $A_2$ ще се получи грешка, понеже $A_2 a \betaeq \lambda_f \lambda_x f(afx)$. Това няма как да е валидно, понеже изисква $a$ да бъде функция.
+
+\section*{Задача ????}
+\paragraph*{}
+В тази задача ще използваме наготово аритметиката с нумералите на Church като ще приемем, че имаме работещи основни аритметични функции за числата, както и за тяхното представяне. За момента ще покажем минимизация само за обикновени функции от вида $f: \mathbb{N} \rightarrow \mathbb{N}$. Тоест няма да имаме "константни аргументи". 
+\paragraph*{}
+Нека разгледаме терма $\Gamma = \lambda_F \lambda_f \lambda_y (c= (f \; y) c_0) y (F f (c_s \; y))$. Тук функцията $c_s$ дава следващото число, тоест $c_s c_x \betaeq c_{x+1}$. От сега нататък приемаме, че искаме да минимизираме функцията $f_1 \in \Lambda$. Приемаме, че тя има следната семантика $f_1 c_x \betaeq c_y \iff f_2(x) = y$. Термът който ще минимизира $f_1$ ще бъде $s_1 := Y \Gamma f_1$. Ще докажем, че нашия терм $s_1$ има семантиката на функцията 
+$s_2(x) =  
+  \begin{cases} 
+	x & f_2(x) = 0 \\
+	s_2(x+1) & \exists y > x : f_2(y) = 0 \\
+	$недефинирана $& \not\exists y > x : f_2(y) = 0  
+ \end{cases}
+$. (тоест, че $s_1 c_x \betaeq c_y \iff s_2(x) = y$). Също и ще покажем, че функцията $s_2$ всъщност извършва минимизацията на $f_2$.
+
+\subsection*{Случай 1: $f_1 c_x \betaeq c_0 \iff f_2(x) = 0$}
+\paragraph*{}
+Трябва да покажем, че $s_1 c_x \betaeq c_x$. $ \\ $
+$s_1 c_x \equiv (Y \Gamma f_1) c_x \equiv ((\lambda_f (\lambda_x f(xx))(\lambda_x f(xx)) ) \Gamma f_1)c_x \betaeq (((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx)))f_1)c_x \betaeq \Gamma ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 c_x$. Нека $\Delta := ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx)))$. Тогава $\Gamma ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 c_x = \Gamma \Delta f_1 c_x \equiv \lambda_F \lambda_f \lambda_y (c= (f \; y) c_0) y (F f (c_s \; y)) \Delta f_1 c_x \betaeq (c= (f_1 \; c_x) c_0) c_x (\Delta f_1 (c_s \; c_x))$. От допускането можем да презапишем този израз като $(c= c_0 c_0) c_x (\Delta f_1 (c_s \; c_x)) \betaeq c_t c_x (\Delta f_1 (c_s \; c_x)) \betaeq c_x$. По този начин довършваме случая.  
+
+\subsection*{Случай 2: $f_1 c_x \not\betaeq c_0 \iff f_2(x) \neq 0$ и $s_2(x)$ е дефинирано}
+\paragraph*{}
+В този случай трябва да покажем, че $s_1 c_x \betaeq s_1 c_{x+1}$. По-късно ще видим като доказваме коректността на функцията $s_2$, че $s_1 c_{x+1}$ ще бъде $\lambda$-определимо. Подобно на миналия случай започваме да правим $\beta$-редукции $s_1 c_x \equiv (Y \Gamma f_1) c_x \betaeq ... \betaeq (c= (f_1 \; c_x) c_0) c_x (\Delta f_1 (c_s \; c_x)).$ От предположението знаем, че този израз е $\beta$-еквивалентен на $c_f c_x (\Delta f_1 (c_s \; c_x)) \betaeq \Delta f_1 (c_s \; c_x) \equiv ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 (c_s \; c_x) \betaeq Y \Gamma f_1 (c_s \; c_x) \betaeq Y \Gamma f_1 c_{x+1} \equiv s_1 c_{x+1}$. Така доказахме случая.
+
+\subsection*{Случай 3:  $s_2(x)$ не е дефинирано}
+\paragraph*{}
+Тук трябва да покажем, че $s_1 c_{x}$ няма нормална форма. 
 
 \end{document}
