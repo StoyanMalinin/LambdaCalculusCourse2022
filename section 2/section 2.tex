@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\begin{document}
+
+\newcommand\alphaeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny $\alpha$}}}{=}}}
+\newcommand\betaeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny $\beta$}}}{=}}}
+\newcommand\betaetaeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny $\beta\eta$}}}{=}}}
+
+\section*{Задача 1}
+\paragraph*{}
+Да се докаже, че $\supseteq$ e рефлексивна и транзитивна релация.
+\subsection*{рефлексивност}
+\paragraph*{}
+Можем за типова субституция да изберем идентитета $\iota$. Ясно е, че тогава $\alpha \supseteq \alpha$, понеже $\alpha \iota = \alpha$.
+\subsection*{транзитивност}
+\paragraph*{}
+Трябва да покажем, че от $\alpha_1 \supseteq \alpha_2 \supseteq \alpha_3$ следва $\alpha_1 \supseteq \alpha_3$. Знаем, че съществуват типови субституции $\xi_1$ и $\xi_2$, за които $\alpha_1 \xi_1 = \alpha_2$ и $\alpha_2 \xi_2 = \alpha_3$. Трябва да намерим такава субституция $\xi$, за която $\alpha_1 \xi = \alpha_3$. Ще конструираме $\xi$, която да работи като $\xi_2$ след $\xi_1$, тоест $\alpha \xi = (\alpha \xi_1) \xi_2$. Нека $\tau \in TV$, тогава $\xi(\tau) = (\xi_1(\tau)) \xi_2$. Нека да докажем, че $\xi$ има желаните свойства. Ще го направим с индукция по дефиницията на типовете.
+\subsubsection*{Случай 1: $\alpha = \tau$, $\tau \in TV$}
+Следва по дефиницията на функцията.
+\subsection*{Случай 2: $\alpha = \beta_1 \implies \beta_2$}
+$((\beta_1 \implies \beta_2)\xi_1)\xi_2 = ((\beta_1 \xi_1) \implies (\beta_1 \xi_1))\xi_2 = (\beta_1 \xi_1) \xi_2 \implies (\beta_1 \xi_1) \xi_2$. По ИП $(\beta_1 \xi_1) \xi_2 \implies (\beta_1 \xi_1) \xi_2 = \beta_1 \xi \implies \beta_2 \xi = (\beta_1 \implies \beta_2)\xi$.
+
+\section*{Задача 2}
+\paragraph*{}
+Ако $M^\tau \in \Lambda^T$ и $FV(M^\tau) = \{ x_1^{\sigma_1}, x_2^{\sigma_2}, ..., x_n^{\sigma_n}  \}$ да се докаже, че $\Gamma $
+
+\end{document}
