@@ -1,65 +1,5 @@
 #lang racket
-
-;this implements the definition f^n(x) = f^(n-1)(f(x))
-(define repeated
-  (lambda (n)
-    (lambda (f)
-      (lambda (x)
-        (if(= n 0) 
-           x
-           (((repeated (- n 1)) f) (f x)))))))
-
-(define natural
-  (lambda (n)
-    (lambda (f)
-      (lambda (x)
-        (((repeated n) f) x)))))
-
-(define c0 (natural 0))
-(define c1 (natural 1))
-(define c2 (natural 2))
-(define c3 (natural 3))
-(define c4 (natural 4))
-(define c5 (natural 5))
-(define c6 (natural 6))
-(define c7 (natural 7))
-(define c8 (natural 8))
-(define c9 (natural 9))
-
-(define printn
-  (lambda (n)
-    ((n (lambda (x) (+ x 1))) 0)))
-
-(define c+
-  (lambda (n)
-    (lambda (m)
-      (lambda (f)
-        (lambda (x)
-          ((n f) ((m f) x)))))))
-
-(define c#t
-  (lambda (x)
-    (lambda (y)
-      x)))
-
-(define c#f
-  (lambda (x)
-    (lambda (y)
-      y)))
-
-(define cPair
-  (lambda (x)
-    (lambda (y)
-      (lambda (z)
-        ((z x) y)))))
-
-(define cFirst
-  (lambda (p)
-    (p c#t)))
-
-(define cSecond
-  (lambda (p)
-    (p c#f)))
+(require "naturalnums.scm")
 
 (define pushBack
   (lambda (l)
@@ -68,14 +8,14 @@
         (lambda (e)
           ((f ((l f) e)) x))))))
 
-(define list
+(define list0
   (lambda (f)
     (lambda (e)
       e)))
 
 (define list1
   (lambda (x)
-        ((pushBack list) x)))
+        ((pushBack list0) x)))
 
 (define list2
   (lambda (x)
@@ -106,7 +46,7 @@
 
 (define revList
   (lambda (l)
-    ((l (lambda (a) (lambda (b) ((pushFront a) b) ))) list)))
+    ((l (lambda (a) (lambda (b) ((pushFront a) b) ))) list0)))
 
 (define invertBinaryFunction
   (lambda (f)
@@ -123,11 +63,17 @@
 (define map
   (lambda(l)
     (lambda (f)
-      ((l (lambda (a) (lambda (b) ((pushBack a) (f b))))) list))))
+      ((l (lambda (a) (lambda (b) ((pushBack a) (f b))))) list0))))
 
 (define filter
   (lambda(l)
     (lambda (f)
       ((l
         (lambda (a) (lambda (b) (if (f b) ((pushBack a) b) a) )))
-        list))))
+        list0))))
+
+(define member
+  (lambda (l)
+    (lambda (x)
+      ((l (lambda(r) (lambda (y) ((r c#t) ((c= x) y)))))
+       c#f))))  
