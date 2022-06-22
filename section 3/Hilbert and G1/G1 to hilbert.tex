@@ -28,16 +28,22 @@
 \begin{enumerate}
     \item A (As)
 \end{enumerate}
+
 \subsection*{Случай $L \bot$}
-Можем да направим празно доказателство, понеже реално тук не се доказва нищо.
+Можем да направим празно доказателство, понеже реално тук не се доказва нищо. Също, ако имаме в допусканията $\bot$, знаем, че можем да направим доказателство в H, използвахки ex falso quodlibet.
+
 \subsection*{Случай $LW$}
 Просто използваме доказателството на $\Gamma \implies \Delta$ и "игнорираме" $\;$ допускането $A$. 
+
 \subsection*{Случай $RW$}
 Просто използваме доказателството за $\Gamma \implies \Delta$.
+
 \subsection*{Случай $LC$}
 Използваме доказателството за $A, \Gamma \implies \Delta$, тъй като $\Gamma$ при Хилбертовите системи е множество, а не мултимножество, то няма проблем.
+
 \subsection*{Случай $RC$}
 Използваме доказателството за $A, \Gamma \implies \Delta, A, A$.
+
 \subsection*{Случай $L \land$}
 Генерираме следното доказателство при допускания $\Gamma A_0 \land A_1$
 \begin{enumerate}
@@ -46,25 +52,27 @@
     \item $A_i$ (MP 1, 2) 
 \end{enumerate}
 След това залепяме доказателството на $\Gamma, A_i$ отзад като махаме всички случаи, в които $A_i$ се използва като (As).
+
 \subsection*{Случай $R \land$}
-Нека имаме $X_1, X_2, ..., X_n$ е доказателство на $\Gamma \implies \Delta, A$ и $Y_1, Y_2, ..., Y_m$ е доказателство на $\Gamma \implies \Delta, B$. Ако $X_n \in \Delta$ или $Y_m \in delta$, тогава използва съотвентото доказателство. В противен случай, знаем, че $X_n \equiv A$ и $Y_m \equiv B$. Тогава, залепяме двете доказателства и добавяме следната последователност:
+Нека имаме $X_1, X_2, ..., X_n$ е доказателство на $\Gamma \implies \Delta, A$ и $Y_1, Y_2, ..., Y_m$ е доказателство на $\Gamma \implies \Delta, B$. Ако $X_n \in \Delta$ или $Y_m \in \Delta$, тогава използваме съотвентото доказателство. В противен случай, знаем, че $X_n \equiv A$ и $Y_m \equiv B$. Тогава, залепяме двете доказателства и добавяме следната последователност:
 \begin{itemize}[itemindent=4em]
-    \item[n+m+1: ] $А \rightarrow B \rightarrow A \land B$ (Ax)    
+    \item[n+m+1: ] $A \rightarrow B \rightarrow A \land B$ (Ax)    
     \item[n+m+2: ] $B \rightarrow A \land B$ (MP n, n+m+1), тук на позиция $n$ седи $X_n$ 
     \item[n+m+3: ] $A \land B$ (MP n+m, n+m+2), тук на позиция $n+m$ седи $Y_m$.
 \end{itemize}
+
 \subsection*{Случай $L \lor$}
 По предположение знаем, че съществуват доказателства на $A, \Gamma \implies \Delta$ и $B, \Gamma \implies \Delta$. Нека БОО $\Delta = \{ O \}$. Правим това, за да си гарантираме, че двете доказателства ще се "синхорнизират". Можем да си позволим да го направим, понеже разсъждаме за произволна $\Delta$ и можем да направим рестрикция на нашата, до някоя, която е с един елемент, понеже случая на празна $\Delta$ е тривиален. Също така може да се направи това нещо, понеже важи, че $\Gamma \implies \Delta_1 \; \; \implies \; \; \Gamma \implies \Delta_2$ за $\Delta_1 \subseteq \Delta_2$. От теорема за дедукцията знаем, че съществуват доказателства и на $\Gamma \implies A \rightarrow O$ и $\Gamma \implies B \rightarrow O$. Нека тези доказателства са $X_1, X_2, ..., X_n \equiv A \rightarrow O$ и $Y_1, Y_2, ..., Y_m \equiv B \rightarrow O$. Залепяме двете доказателства едно след друго и към тях слагаме следната последователност:
 \begin{itemize}[itemindent=4em]
     \item[n+m+1: ] $ (A \rightarrow O) \rightarrow (B \rightarrow O) \rightarrow A \lor B \rightarrow O $ (Ax)    
     \item[n+m+2: ] $(B \rightarrow O) \rightarrow A \lor B \rightarrow O$ (MP n, n+m+1), тук на позиция $n$ седи $X_n$ 
-    \item[n+m+3: ] $A \lor B \rightarrow O$ (MP n, n+m+2), тук на позиция $n+m$ седи $Y_m$ 
+    \item[n+m+3: ] $A \lor B \rightarrow O$ (MP n+m, n+m+2), тук на позиция $n+m$ седи $Y_m$ 
     \item[n+m+4: ] $ A \lor B $ (As) 
     \item[n+m+5: ] $O$ (MP n+m+4, n+m+3)
 \end{itemize}
 
 \section*{Случай $R \lor$}
-Нека имаме доказателство $X_1, X_2, ..., X_n$ на $\Gamma \implies \Delta, A_i$. Ако $X_n \in \Delta$, то просто използваме това доказателство. В противен случай, знаем, че $X_n \equiv A_i$. Тогава към това доказателство добавяме $X_{n+1} \equiv A_i \rightarrow A_0 \lor A_1 \; \; (Ax)$. 
+Нека имаме доказателство $X_1, X_2, ..., X_n$ на $\Gamma \implies \Delta, A_i$. Ако $X_n \in \Delta$, то просто използваме това доказателство. В противен случай, знаем, че $X_n \equiv A_i$. Тогава към това доказателство добавяме $X_{n+1} \equiv A_i \rightarrow A_0 \lor A_1 \; \; (Ax)$ и $X_{n+2} = A_0 \lor A_1$ MP(n, n+1). 
 
 \section*{Случай $L \rightarrow$}
 Нека БОО $\Delta = \{ C \}$. Тогава знаем, че имаме доказателства $X_1, X_2, ..., X_n$ и $Y_1, Y_2, ..., Y_n$ за $\Gamma \implies C, A$ и $B, \Gamma \implies C$. От теорема на дедукцията знаем, че имаме доказалтество $Z_1, Z_2, ..., Z_k$ на $\Gamma \implies B \rightarrow C$. Ако $X_n \in \Delta$, тогава можем да използваме $X_1, X_2, ..., X_n$ като доказалтество на $A \rightarrow B, \Gamma \implies \Delta$. В противен случай, знаем, че $X_n \equiv A$ и правим следната конструкция.  
@@ -81,7 +89,7 @@
 Следва директно от теоремата за дедукцията.
 
 \section*{Случай $L \forall$}
-Нека $X_1, X_2, ..., X_n$ е доказалтество на $\Gamma, A[x \longmapsto t] \implies \Gamma$. Слагаме $C_1 = \forall_x А \rightarrow A[x \longmapsto t]$ (Ax), $C_2 = \forall_x А$ (As), $C_3 = A[x \longmapsto t]$ MP(1, 2). Сега залепяме $X_1, X_2, ..., X_n$ като вече не използваме $A[x \longmapsto t]$ като допускане, а като резултат.
+Нека $X_1, X_2, ..., X_n$ е доказалтество на $\Gamma, A[x \longmapsto t] \implies \Gamma$. Слагаме $C_1 = \forall_x A \rightarrow A[x \longmapsto t]$ (Ax), $C_2 = \forall_x A$ (As), $C_3 = A[x \longmapsto t]$ MP(1, 2). Сега залепяме $X_1, X_2, ..., X_n$ като вече не използваме $A[x \longmapsto t]$ като допускане, а като резултат.
 
 \section*{Случай $R \forall$}
 Знаем, че имаме доказателство $X_1, X_2, ..., X_n$ на $\Gamma \implies \Delta, A$. Ако $X_n \in \Delta$ можем да използваме това доказателство и за $\Gamma \implies \Delta, \forall_x A$, в противен случай знаем, че $X_n \equiv A$. Тогава можем да довършим като използваме теорема за генерализацията.
