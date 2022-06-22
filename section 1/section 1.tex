@@ -134,5 +134,23 @@ $s_2(x) =
 
 Желаните функции са реализирани във файла lists.scm. Append се казва pushBack. Функцията member е написана да сравнява само числа, за да се тества по лесно.
 
+\section*{Задача 2.38}
+\paragraph*{}
+Ще направим индукция по дефиницията на $M$.
+
+\subsection*{Случай 1 - $M \equiv y$, у е променлива}
+\subsubsection*{Случай 1.1 - $y \equiv x$}
+Тогава $M[x \longmapsto N] \equiv N$ и $M[x \longmapsto N'] \equiv N'$. От условието е ясно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$ заради рефлексивността.
+\subsubsection*{Случай 1.2 - $y \not\equiv x$}
+Тогава $M[x \longmapsto N] \equiv y$ и $M[x \longmapsto N'] \equiv y$. От условието е ясно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$ заради рефлексивността.
+
+\subsection*{Случай 2 - $M \equiv M_1, M_2$}
+От ИП имаме, че $(M_1[x \longmapsto N], M_1[x \longmapsto N']) \in D^{\lambda, R, T}$ и $(M_2[x \longmapsto N], M_2[x \longmapsto N']) \in D^{\lambda, R, T}$. Тъй като $M[x \longmapsto N] \equiv (M_1[x \longmapsto N])(M_2[x \longmapsto N])$ и $M[x \longmapsto N'] \equiv (M_1[x \longmapsto N'])(M_2[x \longmapsto N'])$, то от ламбда затварянето и транзитивността следва, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$.
+
+\subsection*{Случай 3 - $M \equiv \lambda_y P$}
+\subsubsection*{Случай 3.1 - $y \equiv x$}
+$(\lambda_x P)[x \longmapsto N] \equiv \lambda_x P$ и $(\lambda_x P)[x \longmapsto N'] \equiv \lambda_x P$. От рефликсвоност е вярно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$.
+\subsection*{Случай 3.2 - $y \not\equiv x$}
+$(\lambda_y P)[x \longmapsto N] \equiv \lambda_y (P [x \longmapsto N])$ и $(\lambda_y P)[x \longmapsto N'] \equiv \lambda_y (P [x \longmapsto N'])$. От ИП имаме, че $(P [x \longmapsto N], P [x \longmapsto N']) \in D^{\lambda, R, T}$. Так от ламбда затварянето имаме, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$.
 
 \end{document}
