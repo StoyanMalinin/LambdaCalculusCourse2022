@@ -18,12 +18,11 @@
 
 \section*{Задача 2.3}
 \begin{itemize}
-		\item  $(x, x) \in \alphaeq$
-		\item $(A, A) \in \alphaeq$
-		\item ако $(A_1, A_2) \in \alphaeq$, то $(A_2, A_1) \in \alphaeq$
-		\item ако $(A_1, A_2) \in \alphaeq$ и $(A_2, A_3) \in \alphaeq$, то $(A_1, A_3) \in \alphaeq$
-		\item ако $(A_1, B_1) \in \alphaeq$ и $(A_2, B_2) \in \alphaeq$, то $(A_1 B_1, A_2 B_2) \in \alphaeq$
-		\item Нека имаме $M = \lambda_x A$, $N = \lambda_y B$. Ако $x \notin FV(B)$ и $(A, B[y \rightsquigarrow x]) \in \alphaeq$, то $(M, N) \in \alphaeq$ (тук $\rightsquigarrow$ е наивна субституция)
+		\item $(A, A) \in \alphaeq$, $A \in \Lambda$
+		\item ако $(A_1, A_2) \in \alphaeq$, то $(A_2, A_1) \in \alphaeq$, $A_1, A_2 \in \Lambda$
+		\item ако $(A_1, A_2) \in \alphaeq$ и $(A_2, A_3) \in \alphaeq$, то $(A_1, A_3) \in \alphaeq$, $A_1, A_2, A_3 \in \Lambda$
+		\item ако $(A_1, B_1) \in \alphaeq$ и $(A_2, B_2) \in \alphaeq$, то $(A_1 B_1, A_2 B_2) \in \alphaeq$, $A_1, A_2, B_1, B_2 \in \Lambda$
+		\item Нека имаме $M = \lambda_x A$, $N = \lambda_y B$, $A, B \in \Lambda$ и $x, y \in V$. Ако $(A, B[y \rightsquigarrow x]) \in \alphaeq$ и $y \not\in FV(A) \cup BV(A)$, то $(M, N) \in \alphaeq$ (тук $\rightsquigarrow$ е наивна субституция).
 \end{itemize}
 
 \section*{Задача 2.1}
