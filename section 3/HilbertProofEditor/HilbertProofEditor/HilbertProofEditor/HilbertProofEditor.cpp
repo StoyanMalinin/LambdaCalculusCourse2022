@@ -894,6 +894,14 @@ Term* makeAx12()
 
 int main()
 {
+    char systemType = '$';
+    cout << "Enter your system type(m/i/c)" << '\n';
+    while (!(systemType == 'm' || systemType == 'i' || systemType == 'c'))
+    {
+        cout << ">";
+        cin >> systemType;
+    }
+
     vector <Term*> assumptions;
     enterAssumptions(assumptions);
 
@@ -950,6 +958,8 @@ int main()
                 if (t != nullptr) proof.push_back(t);
                 else continue;
             }
+            else if (ax == "11" && (systemType == 'i' || systemType == 'c')) proof.push_back(makeAx11());
+            else if (ax == "12" && systemType == 'c') proof.push_back(makeAx12());
             else
             {
                 cout << "Invalid axiom number!" << '\n';
