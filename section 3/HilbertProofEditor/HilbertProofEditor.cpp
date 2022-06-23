@@ -1,24 +1,59 @@
 #include <exception>
 #include <iostream>
 #include <assert.h>
+#include <sstream>
 #include <vector>
 
 using namespace std;
 
-const string BOTTOM = "\\bottom";
+const string BOTTOM = "!";
 
 struct Term
 {
     virtual Term* clone() const = 0;
     virtual void print(ostream& os) const = 0;
-    void println(ostream& os)
+    void println(ostream& os) const
     {
         print(os);
         os << '\n';
     }
 
     virtual bool isInFV(const string& varName) const = 0;
+
+    string toString() const
+    {
+        stringstream s;
+        print(s);
+
+        return s.str();
+    }
+
+    virtual bool canMP(Term *antecedent) const
+    {
+        return false;
+    }
+    virtual Term* getSequent() const
+    {
+        return nullptr;
+    }
+
+    virtual bool canGen(const vector<Term*> &assumptions) const
+    {
+        return false;
+    }
+    virtual Term* getUnderQuantifier() const
+    {
+        return nullptr;
+    }
 };
+
+bool cmpStrict(Term *t1, Term *t2)
+{
+    if(t1==nullptr) return false;
+    if(t2==nullptr) return false;
+
+    return (t1->toString()==t2->toString());
+}
 
 enum class Operation
 {
@@ -70,6 +105,17 @@ struct BinaryOperation : public Term
         os << ")";
 
     }
+
+    bool canMP(Term *antecedent) const override
+    {
+        return (type==Operation::IMPLICATION && cmpStrict(lhs, antecedent)==true);
+    }
+
+    Term* getSequent() const override
+    {
+        if(type==Operation::IMPLICATION) return rhs;
+        return nullptr;
+    }
 };
 
 struct UnaryOperation : public Term
@@ -111,6 +157,22 @@ struct UnaryOperation : public Term
         os << " (";
         t->print(os);
         os << ")";
+    }
+
+    bool canGen(const vector<Term*> &assumptions) const override
+    {
+        if(type!=Operation::FOR_ALL) return false;
+
+
+        for(Term *t: assumptions)
+            if(t->isInFV(variable)==true) return false;
+
+        return true;
+    }
+
+    Term* getUnderQuantifier() const  override
+    {
+        return t;
     }
 };
 
@@ -246,6 +308,7 @@ bool isLetter(char c)
 {
     if('A'<=c && c<='Z') return true;
     if('a'<=c && c<='z') return true;
+    if(c=='!') return true;
     return false;
 }
 
@@ -435,13 +498,136 @@ Term* parse(string expression)
     return res;
 }
 
+Term* makeFormula(const string& msg)
+{
+    cout << msg << '\n';
+
+    vector <Term*> formulas;
+    for(int num = 1;;num++)
+    {
+        cout << ">";
+
+        string cmd;
+        cin >> cmd;
+
+        if(cmd=="freestyle")
+        {
+            string expression;
+            while(cin.peek()=='\n') cin.ignore();
+            getline(cin, expression);
+
+            Term *t = parse(expression);
+            formulas.push_back(t);
+        }
+        else if(cmd=="combine")
+        {
+
+        }
+        else if(cmd=="done")
+        {
+            if(formulas.empty()==true)
+                cout << "no formula was made" << '\n';
+            else
+            {
+                for(int i = 0;i<formulas.size()-1;i++) delete formulas[i];
+                return formulas.back();
+            }
+        }
+        else
+        {
+            cout << "invalid command" << '\n';
+        }
+    }
+}
+
+void enterAssumptions(vector <Term*> &assumptions)
+{
+    int assumptionCnt;
+    cout << "Enter the number of assumptions: ";cin >>  assumptionCnt;
+
+    cout << "Enter your assumptions" << '\n';
+    for(int i = 1;i<=assumptionCnt;i++)
+        assumptions.push_back(makeFormula("Enter assumption number " + to_string(i)));
+}
+
 int main()
 {
-    Term *res1 = parse("A -> A \\/ B -> (A->B)");
-    res1->println(cout);
+    vector <Term*> assumptions;
+    enterAssumptions(assumptions);
 
-    Term *res2 = parse("\\a x \\e y A -> z");
-    res2->println(cout);
+    cout << "Your assumptions are:" << '\n';
+    for(int i = 0;i<assumptions.size();i++)
+    {
+        cout << i+1 << ". ";
+        assumptions[i]->println(cout);
+    }
 
-    cout << res2->isInFV("y") << " " << res2->isInFV("A") << " " << res2->isInFV("z") << '\n';
+    cout << '\n';
+    cout << '\n';
+    cout << '\n';
+    cout << "The proof begins, good luck!" << '\n';
+
+    vector <Term*> proof;
+    for(int iter = 1;;iter++)
+    {
+        string type;
+        cout << "Enter rule type (As/Ax/MP/Gen/QED): " << '\n';
+        cout << ">";cin >> type;
+
+        if(type=="As")
+        {
+            cout << "Enter assumption number: ";
+            int num;cin >> num;
+
+            proof.push_back(assumptions[num-1]->clone());
+        }
+        else if(type=="MP")
+        {
+            int j, k;
+            cout << "j=";cin >> j;
+            cout << "k=";cin >> k;
+
+            if(proof[k-1]->canMP(proof[j-1])==true)
+            {
+                proof.push_back(proof[k-1]->getSequent()->clone());
+            }
+            else
+            {
+                cout << "Invalid (MP)" << '\n';
+                continue;
+            }
+        }
+        else if(type=="Gen")
+        {
+            int j;
+            cout << "j=";cin >> j;
+
+            proof[j-1]->println(cout);
+            if(proof[j-1]->canGen(assumptions)==true)
+            {
+                proof.push_back(proof[j-1]->getUnderQuantifier()->clone());
+            }
+            else
+            {
+                cout << "Cannot (Gen)" << '\n';
+                continue;
+            }
+        }
+        else if(type=="QED")
+        {
+            break;
+        }
+        else
+        {
+            cout << "invalid type!" << '\n';
+            continue;
+        }
+
+        cout << iter << ". ";
+        proof.back()->println(cout);
+    }
+
+    cout << "You managed to prove: ";
+    if(proof.empty()==false) proof.back()->println(cout);
+    else cout << "\n";
 }
