@@ -45,6 +45,8 @@ struct Term
     {
         return nullptr;
     }
+
+    virtual void varSub(const string& x, const string& t) = 0;
 };
 
 bool cmpStrict(Term* t1, Term* t2)
@@ -87,7 +89,7 @@ struct BinaryOperation : public Term
 
     bool isInFV(const string& varName) const
     {
-        return lhs->isInFV(varName) | rhs->isInFV(varName);
+        return lhs->isInFV(varName) || rhs->isInFV(varName);
     }
 
     void print(ostream& os) const override
@@ -115,6 +117,14 @@ struct BinaryOperation : public Term
     {
         if (type == Operation::IMPLICATION) return rhs;
         return nullptr;
+    }
+
+    void varSub(const string& x, const string& t) override
+    {
+        if (x == t) return;
+
+        lhs->varSub(x, t);
+        rhs->varSub(x, t);
     }
 };
 
@@ -163,7 +173,6 @@ struct UnaryOperation : public Term
     {
         if (type != Operation::FOR_ALL) return false;
 
-
         for (Term* t : assumptions)
             if (t->isInFV(variable) == true) return false;
 
@@ -174,11 +183,20 @@ struct UnaryOperation : public Term
     {
         return t;
     }
+
+    void varSub(const string& var1, const string& var2) override
+    {
+        if (var1 == var2) return;
+        if (var1 == variable) return;
+
+        t->varSub(var1, var2);
+    }
 };
 
 struct AtomicFormula : public Term
 {
     string name;
+    vector <pair<string, string>> substitutions;
 
     AtomicFormula(const string& name) : name(name)
     {}
@@ -196,6 +214,13 @@ struct AtomicFormula : public Term
     void print(ostream& os) const override
     {
         os << name;
+        for (auto& item : substitutions) os << "[" << item.first << " |-> " << item.second << "]";
+    }
+
+    void varSub(const string& x, const string& t) override
+    {
+        if (x == t) return;
+        substitutions.emplace_back(x, t);
     }
 };
 
@@ -219,6 +244,12 @@ struct Variable : public Term
     void print(ostream& os) const override
     {
         os << name;
+    }
+
+    void varSub(const string& x, const string& t) override
+    {
+        if (x == t) return;
+        if (name == x) name = t;
     }
 };
 
@@ -683,6 +714,23 @@ Term* makeAx6()
     return res;
 }
 
+Term* makeAx7()
+{
+    cout << "You have to instantiate Axiom 7: \\a_x A -> A[x->t]" << '\n';
+    Term* A = makeFormula("Enter formula for A");
+    string x; cout << "Enter x:"; cin >> x;
+    string t; cout << "Enter t:"; cin >> t;
+
+    Term* lhs = new UnaryOperation(Operation::FOR_ALL, x, A);
+    Term* rhs = A->clone();rhs->varSub(x, t);
+    Term* res = new BinaryOperation(Operation::IMPLICATION, lhs, rhs);
+
+    delete A;
+    delete lhs; delete rhs;
+
+    return res;
+}
+
 Term* makeAx8()
 {
     cout << "You have to instantiate Axiom 8: \\a_x (B->A)->(B->\\a_x A), x not in FV(B)" << '\n';
@@ -704,6 +752,23 @@ Term* makeAx8()
 
     delete A; delete B;
     delete BtoA; delete forAllxA;
+    delete lhs; delete rhs;
+
+    return res;
+}
+
+Term* makeAx9()
+{
+    cout << "You have to instantiate Axiom 9: A[x->t] -> \\a_x A" << '\n';
+    Term* A = makeFormula("Enter formula for A");
+    string x; cout << "Enter x:"; cin >> x;
+    string t; cout << "Enter t:"; cin >> t;
+
+    Term* rhs = new UnaryOperation(Operation::EXISTS, x, A);
+    Term* lhs = A->clone(); rhs->varSub(x, t);
+    Term* res = new BinaryOperation(Operation::IMPLICATION, lhs, rhs);
+
+    delete A;
     delete lhs; delete rhs;
 
     return res;
@@ -810,12 +875,14 @@ int main()
             else if (ax == "5.1") proof.push_back(makeAx5_1());
             else if (ax == "5.2") proof.push_back(makeAx5_2());
             else if (ax == "6") proof.push_back(makeAx6());
+            else if (ax == "7") proof.push_back(makeAx7());
             else if (ax == "8")
             {
                 Term* t = makeAx8();
                 if (t != nullptr) proof.push_back(t);
                 else continue;
             }
+            else if (ax == "9") proof.push_back(makeAx9());
             else if (ax == "10")
             {
                 Term* t = makeAx10();
