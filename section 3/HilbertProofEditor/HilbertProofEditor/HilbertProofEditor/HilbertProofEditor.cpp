@@ -549,10 +549,71 @@ Term* makeFormula(const string& msg)
 
             Term* t = parse(expression);
             formulas.push_back(t);
+        
+            cout << formulas.size() << ":";
+            formulas.back()->println(cout);
         }
         else if (cmd == "combine")
         {
+            string type;
+            cin >> type;
+        
+            if (type == "implication" || type == "or" || type == "and")
+            {
+                int i, j;
+                cout << "i="; cin >> i;
+                cout << "j="; cin >> j;
+            
+                if (i <= 0 && i > formulas.size() && j <= 0 && j > formulas.size())
+                {
+                    cout << "invalid formula index!" << '\n';
+                    continue;
+                }
 
+                if (type == "implication") formulas.push_back(new BinaryOperation(Operation::IMPLICATION, formulas[i - 1], formulas[j - 1]));
+                else if(type=="and") formulas.push_back(new BinaryOperation(Operation::AND, formulas[i - 1], formulas[j - 1]));
+                else if(type=="or") formulas.push_back(new BinaryOperation(Operation::OR, formulas[i - 1], formulas[j - 1]));
+            }
+            else if (type == "forall" || type == "exists")
+            {
+                int i;
+                cout << "i="; cin >> i;
+
+                if (i <= 0 && i > formulas.size())
+                {
+                    cout << "invalid formula index!" << '\n';
+                    continue;
+                }
+
+                string x;
+                cout << "x: "; cin >> x;
+
+                if (type == "forall") formulas.push_back(new UnaryOperation(Operation::FOR_ALL, x, formulas[i - 1]));
+                else if (type == "exists") formulas.push_back(new UnaryOperation(Operation::EXISTS, x, formulas[i - 1]));
+            }
+
+            cout << formulas.size() << ":";
+            formulas.back()->println(cout);
+        }
+        else if (cmd == "substitute")
+        {
+            int ind;
+            cout << "ind: "; cin >> ind;
+
+            if (ind <= 0 && ind > formulas.size())
+            {
+                cout << "invalid ind" << '\n';
+                continue;
+            }
+
+            string x; cout << "x:"; cin >> x;
+            string t; cout << "t:"; cin >> t;
+
+            formulas.push_back(formulas[ind - 1]->clone());
+            formulas.back()->varSub(x, t);
+
+            cout << formulas.size() << ":";
+            formulas.back()->println(cout);
         }
         else if (cmd == "done")
         {
@@ -765,7 +826,7 @@ Term* makeAx9()
     string t; cout << "Enter t:"; cin >> t;
 
     Term* rhs = new UnaryOperation(Operation::EXISTS, x, A);
-    Term* lhs = A->clone(); rhs->varSub(x, t);
+    Term* lhs = A->clone(); lhs->varSub(x, t);
     Term* res = new BinaryOperation(Operation::IMPLICATION, lhs, rhs);
 
     delete A;
@@ -952,7 +1013,19 @@ int main()
         proof.back()->println(cout);
     }
 
+    cout << '\n';
+    cout << '\n';
+
     cout << "You managed to prove: ";
     if (proof.empty() == false) proof.back()->println(cout);
     else cout << "\n";
+
+    cout << "Here is your proof:" << '\n';
+    for (int i = 0; i < proof.size(); i++)
+    {
+        cout << i + 1 << ". ";
+        proof[i]->println(cout);
+    }
+
+    for (Term* t : proof) delete t;
 }
