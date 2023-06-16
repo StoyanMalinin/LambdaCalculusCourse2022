@@ -55,69 +55,18 @@
 \end{enumerate}
 
 \subsection*{1}
-Ще докажем твърдението с индукция $n \in \mathbb{N}$. Преди това ще забележим, че $c_i c_n \betaeq c_n c_s c_0 = (\lambda_f \lambda_x f^n x) c_s c_n \betaeq c_s^n c_0 $.
+Ще докажем твърдението с индукция $n \in \mathbb{N}$. Преди това ще забележим, че $c_i c_n \betaeq c_n c_s c_0 = (\lambda_f \lambda_x f^n x) c_s c_0 \betaeq c_s^n c_0 $.
 \subsubsection*{База}
 \paragraph*{}
-При $n=0$ имаме, $c_i c_0 \betaeq = c_0 c_s c_0 = (\lambda_f \lambda_x x) c_s c_0 \betaeq c_0$, с което базата е доказана.
+При $n=0$ имаме, $c_i c_0 \betaeq c_0 c_s c_0 = (\lambda_f \lambda_x x) c_s c_0 \betaeq c_0$, с което базата е доказана.
 
 \subsubsection*{Индуктивна стъпка}
 \paragraph*{}
-Нека се опитаме да докажем твърдението за $n+1$. $c_i c_{n+1} \betaeq c_{n+1} c_s c_0 = (\lambda_f \lambda_x f^{n+1} x) c_s c_0 \betaeq c_s^{n+1} c_0$. Използваме дефиницията за $n$-кратна композиция на функция и записваме, че $c_s^{n+1} c_0 = c_s (c_s^n c_0)$. От наблюдението горе се сещаме, че $c_s (c_s^n c_0) \betaeq c_s (c_i c_n)$. От ИП можем да запишем, че $c_s (c_i c_n) \betaeq c_s c_n$. Сега от свойствата на $c_s$ получаваме, че $c_s c_n = c_{n+1}$. По този начин индуктивната стъпка е завършена.
+Нека се опитаме да докажем твърдението за $n+1$. $c_i c_{n+1} \betaeq c_{n+1} c_s c_0 = (\lambda_f \lambda_x f^{n+1} x) c_s c_0 \betaeq c_s^{n+1} c_0$. Използваме дефиницията за $n$-кратна композиция на функция и записваме, че $c_s^{n+1} c_0 = c_s (c_s^n c_0)$. От наблюдението горе се сещаме, че $c_s (c_s^n c_0) \betaeq c_s (c_i c_n)$. От ИП можем да запишем, че $c_s (c_i c_n) \betaeq c_s c_n$. Сега от свойствата на $c_s$ получаваме, че $c_s c_n \betaeq c_{n+1}$. По този начин индуктивната стъпка е завършена.
 
 \subsection*{2}
 \paragraph*{}
-Нека разгледаме $K = \lambda_x \lambda_y x$. Нека приложим $K$ на $c_i$ и на $I$. $I K \betaeq K = A_1$. От друга страна $c_i K \betaeq K c_s c_0 \betaeq c_s = A_2$. Използваме дефиницията за $c_s$ от лекции $c_s = \lambda_n \lambda_f \lambda_x f (n f x)$. Вижда се, че $A_1$ и $A_2$ са два фундаментално различни обекта, понеже ако приложим променлива $a$ към $A_1$ получаваме $A_1 a = Ka \betaeq \lambda_y a$, което е константа функция, а ако се опитаме да приложим променливата $a$ към $A_2$ ще се получи грешка, понеже $A_2 a \betaeq \lambda_f \lambda_x f(afx)$. Това няма как да е валидно, понеже изисква $a$ да бъде функция.
-
-\section*{Задача 2.32}
-\paragraph*{}
-В тази задача ще използваме наготово аритметиката с нумералите на Church като ще приемем, че имаме работещи основни аритметични функции за числата, както и за тяхното представяне. Също и ще приемем, че имаме работещи основните неща от булевата логика. За момента ще покажем минимизация само за обикновени функции от вида $f: \mathbb{N} \rightarrow \mathbb{N}$. Тоест няма да имаме "константни аргументи". 
-\paragraph*{}
-Нека разгледаме терма $\Gamma = \lambda_F \lambda_f \lambda_y (c_= (f \; y) c_0) y (F f (c_s \; y))$. Тук функцията $c_s$ дава следващото число, тоест $c_s c_x \betaeq c_{x+1}$. От сега нататък приемаме, че искаме да минимизираме функцията $f_1 \in \Lambda$. Приемаме, че тя има следната семантика $f_1 c_x \betaeq c_y \iff f_2(x) = y$. Термът който ще минимизира $f_1$ ще бъде $s_1 := Y \Gamma f_1$. Ще докажем, че нашият терм $s_1$ има семантиката на функцията 
-$s_2(x) =  
-  \begin{cases} 
-	x & f_2(x) = 0 \\
-	s_2(x+1) & \exists y > x : f_2(y) = 0 \\
-	$недефинирана $& \not\exists y > x : f_2(y) = 0  
- \end{cases}
-$. (тоест, че $s_1 c_x \betaeq c_y \iff s_2(x) = y$). Също и ще покажем, че функцията $s_2$ всъщност извършва минимизацията на $f_2$.
-
-\subsection*{Случай 1: $f_1 c_x \betaeq c_0 \iff f_2(x) = 0$}
-\paragraph*{}
-Трябва да покажем, че $s_1 c_x \betaeq c_x$. $ \\ $
-$s_1 c_x \equiv (Y \Gamma f_1) c_x \equiv ((\lambda_f (\lambda_x f(xx))(\lambda_x f(xx)) ) \Gamma f_1)c_x \betaeq (((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx)))f_1)c_x \betaeq \Gamma ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 c_x$. Нека $\Delta := ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx)))$. $ \\ $ 
-Тогава $\Gamma ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 c_x \equiv \Gamma \Delta f_1 c_x \equiv \lambda_F \lambda_f \lambda_y (c_= (f \; y) c_0) y (F f (c_s \; y)) \Delta f_1 c_x \betaeq (c_= (f_1 \; c_x) c_0) c_x (\Delta f_1 (c_s \; c_x))$. От допускането можем да презапишем този израз като $(c_= c_0 c_0) c_x (\Delta f_1 (c_s \; c_x)) \betaeq c_t c_x (\Delta f_1 (c_s \; c_x)) \betaeq c_x$. По този начин довършваме случая.  
-
-\subsection*{Случай 2: $f_1 c_x \not\betaeq c_0 \iff f_2(x) \neq 0$ и $s_2(x)$ е дефинирано}
-\paragraph*{}
-В този случай трябва да покажем, че $s_1 c_x \betaeq s_1 c_{x+1}$. По-късно ще видим като доказваме коректността на функцията $s_2$, че $s_1 c_{x+1}$ ще бъде $\lambda$-определимо. Подобно на миналия случай започваме да правим $\beta$-редукции $s_1 c_x \equiv (Y \Gamma f_1) c_x \betaeq ... \betaeq (c_= (f_1 \; c_x) c_0) c_x (\Delta f_1 (c_s \; c_x)).$ От предположението знаем, че този израз е $\beta$-еквивалентен на $c_f c_x (\Delta f_1 (c_s \; c_x)) \betaeq \Delta f_1 (c_s \; c_x) \equiv ((\lambda_x \Gamma(xx))(\lambda_x \Gamma(xx))) f_1 (c_s \; c_x) \betaeq Y \Gamma f_1 (c_s \; c_x) \betaeq Y \Gamma f_1 c_{x+1} \equiv s_1 c_{x+1}$. Така доказахме случая.
-
-\subsection*{Случай 3:  $s_2(x)$ не е дефинирано}
-\paragraph*{}
-Тук трябва да покажем, че $s_1 c_{x}$ няма нормална форма, но за жалост не знам как :(. 
-
-\paragraph*{}
-Знаейки вече, че $s_1 c_x$ има същата семантика като $s_2(x)$, то остава смао да направим доказателство, че $s_2(0)$ наистина намира най-малкaта стойност $x$, за която $f_2(x) = 0$, ако изобщо съществува такава. Ще докажем това твърдение със силна индукция наобратно. По-конкретно ще докажем следното твърдение: $ \\ $
-
-$s_2(x) =  
-\begin{cases}
-  y & \exists y \in \mathbb{N}, y \geq x : f_2(y) = 0 \; \land \not\exists z \in \mathbb{N}, x \leq z < y : f_2(z) = 0  \\
-  $недефинирана $& \not\exists y \in \mathbb{N}, y \geq x : f_2(y) = 0  
-\end{cases}$ Тоест, ще доказваме, че $s_2(x)$ намира най-близкото не по-малко число от $x$, което е корен на $f_2$.
-
-\subsection*{База}
-\paragraph*{}
-Нека $y \in \mathbb{N}$, $f_2(y) = 0$ и $y$ е минималното такова число. Нека $x = y$, тогава е ясно, че $s_2(x) = x = y$. Ако такова $y$ не съществува, то от дефиницията на $s_2$ става ясно, че $s_2(x)$ е недефинирано $\forall x \in \mathbb{N}$, така че вече ще разглеждаме само случая, в който $y$ съществува. Тогава също и термът $s_1 c_y$ ще е ламбда определим и $\beta$-еквивалентен на $c_y$.
-
-\subsection*{Индуктивно предположение}
-\paragraph*{}
-Допускаме, че функцията $s_2$ се държи както е описано по-горе за всички стойности в интервала $[x+1, y]$, където $y$ e минималният корен на функцията $f_2$. А пък, ако такова $y$ не съществува, то $s_2(x)$ не е дефинирано. Също и че термът $s_1 c_a$, $a \in [x+1, y]$ е $\lambda$-определеим и има семантиката на $s_2(a)$.     
-
-\subsection*{Индуктивна стъпка}
-\paragraph*{}
-Ще докажем, че $s_2(x)$ има очакваното поведение използвайки ИП. От минималността на $y$ знаем, че $f_2(x) \neq 0$. Тогава по определението за $s_2$ знаем, че $s_2(x) = s_2(x+1)$. От индуктивното предположение става ясно, че $s_2(x+1) = y$, което е очаквания резултат. Също и е ясно, че ако $y$ не съществува, то $s_2(x)$ няма да е дефинирано. Също така, тъй като $s_1 c_x$ ще бъде $\beta$-еквивалентно на $s_1 c_{x+1}$ в този случай, то $s_1 c_x$ ще има семантиката на $s_2(x)$.
-
-\paragraph*{}
-Така вече знаем, че $s_2$ върши това, което очакваме да върши и можем да заключим, че $s_1 c_0$ наистина намира най малкия корен на функцията $f_1$, ако той съществува, а иначе няма нормална форма. 
+Нека разгледаме $K = \lambda_x \lambda_y x$. Нека приложим $K$ на $c_i$ и на $I$. $I K \betaeq K = A_1$. От друга страна $c_i K \betaeq K c_s c_0 \betaeq c_s = A_2$. Използваме дефиницията за $c_s$ от лекции $c_s = \lambda_n \lambda_f \lambda_x f (n f x)$. Вижда се, че $A_1$ и $A_2$ са няма как да са бета-еквивалентни, понеже и двете са в бета-нормална форма, но не са равни. 
 
 \section*{Задача 2.29}
 \begin{itemize}
@@ -135,11 +84,11 @@ $s_2(x) =
 
 \subsection*{Случай 1 - $M \equiv y$, у е променлива}
 \subsubsection*{Случай 1.1 - $y \equiv x$}
-Тогава $M[x \longmapsto N] \equiv N$ и $M[x \longmapsto N'] \equiv N'$. От условието е ясно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$ заради рефлексивността.
+Тогава $M[x \longmapsto N] \equiv N$ и $M[x \longmapsto N'] \equiv N'$. От условието е ясно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$ по условие.
 \subsubsection*{Случай 1.2 - $y \not\equiv x$}
 Тогава $M[x \longmapsto N] \equiv y$ и $M[x \longmapsto N'] \equiv y$. От условието е ясно, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$ заради рефлексивността.
 
-\subsection*{Случай 2 - $M \equiv M_1, M_2$}
+\subsection*{Случай 2 - $M \equiv M_1 M_2$}
 От ИП имаме, че $(M_1[x \longmapsto N], M_1[x \longmapsto N']) \in D^{\lambda, R, T}$ и $(M_2[x \longmapsto N], M_2[x \longmapsto N']) \in D^{\lambda, R, T}$. Тъй като $M[x \longmapsto N] \equiv (M_1[x \longmapsto N])(M_2[x \longmapsto N])$ и $M[x \longmapsto N'] \equiv (M_1[x \longmapsto N'])(M_2[x \longmapsto N'])$, то от ламбда затварянето и транзитивността следва, че $(M[x \longmapsto N], M[x \longmapsto N']) \in D^{\lambda, R, T}$.
 
 \subsection*{Случай 3 - $M \equiv \lambda_y P$}
